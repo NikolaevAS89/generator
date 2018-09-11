@@ -16,4 +16,6 @@ public interface SQLAgentProvider {
     DataBaseAgent getDBAgent();
 
     DataGeneratorService getDataGeneratorProvider();
+
+    Object registerNewBean(Class clazz);
 }

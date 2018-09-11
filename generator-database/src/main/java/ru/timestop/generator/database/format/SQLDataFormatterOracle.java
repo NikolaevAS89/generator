@@ -25,7 +25,7 @@ public class SQLDataFormatterOracle extends SQLDataFormatterDefault {
                 switch (value.getClass().getName()) {
                     case "oracle.sql.TIMESTAMP":
                         Date date2 = ((TIMESTAMP) value).dateValue();
-                        res = "TO_TIMESTAMP_TZ('" + df.format(date2) + " " + timeZone + "', 'YYYY-MM-DD HH24:MI:SS.FF3 TZR')";
+                        res = "TO_TIMESTAMP_TZ('" + df.format(date2) + " +3:00', 'YYYY-MM-DD HH24:MI:SS.FF3 TZR')";
                         break;
                     case "[B":
                         res = "HEXTORAW('" + HexBin.encode((byte[]) value) + "')";

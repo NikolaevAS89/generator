@@ -1,5 +1,6 @@
 package ru.timestop.generator.data.generators;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import ru.timestop.generator.data.DataGenerator;
 
 /**

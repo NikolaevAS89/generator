@@ -16,7 +16,6 @@ public class SQLDataFormatterDefault implements SQLDataFormatter {
     private static final Logger LOG = Logger.getLogger(SQLDataFormatterDefault.class);
 
     final static DateFormat df = new SimpleDateFormat(DATE_FORMAT);
-    final String timeZone = "+3:00";
 
     @Override
     public String toSQLFormat(Object value) {

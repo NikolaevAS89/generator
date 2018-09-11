@@ -9,7 +9,7 @@ import ru.timestop.generator.database.object.DataType;
 import ru.timestop.generator.database.query.TypeNotSupportedException;
 import ru.timestop.generator.properties.DataGeneratorProperties;
 import ru.timestop.generator.service.SQLAgentProvider;
-import ru.timestop.generator.service.extended.ExtndedDataGeneratorService;
+import ru.timestop.generator.service.extended.ExtendedDataGeneratorService;
 import ru.timestop.generator.service.table.DBObjectService;
 
 import java.util.HashMap;
@@ -33,7 +33,7 @@ abstract class AbstractDataGeneratorService implements DataGeneratorService {
     private DBObjectService DBObjectService;
 
     @Autowired
-    private ExtndedDataGeneratorService extndedDataGeneratorService;
+    private ExtendedDataGeneratorService extendedDataGeneratorService;
 
     @Autowired
     DataGeneratorProperties dataGeneratorConfig;
@@ -42,7 +42,7 @@ abstract class AbstractDataGeneratorService implements DataGeneratorService {
 
     @Override
     public DataGenerator get(String columnId) {
-        DataGenerator generator = extndedDataGeneratorService.get(columnId);
+        DataGenerator generator = extendedDataGeneratorService.get(columnId);
         if (generator == null) {
             Column column = DBObjectService.getColumn(columnId);
             generator = defaultGenerators.get(column.getDataType());

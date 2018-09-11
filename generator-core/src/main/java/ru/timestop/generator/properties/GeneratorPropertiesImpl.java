@@ -13,6 +13,9 @@ public class GeneratorPropertiesImpl implements GeneratorProperties {
     @Value("${generator.goal.scope:keys.csv}")
     private String goalListPath;
 
+    @Value("${generator.generators:generators.csv}")
+    private String generatorListPath;
+
     @Value("${generator.dml.row.delete.count:1}")
     private int rowDelete;
 
@@ -48,5 +51,10 @@ public class GeneratorPropertiesImpl implements GeneratorProperties {
     @Override
     public String getGoalListPath() {
         return goalListPath;
+    }
+
+    @Override
+    public String getExtendedGeneratorPath() {
+        return generatorListPath;
     }
 }

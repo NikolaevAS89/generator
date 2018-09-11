@@ -18,6 +18,7 @@
         <module>generator-goal</module>
         <module>generator-data</module>
         <module>generator-single</module>
+        <module>generator-scheduled</module>
         <module>utilites</module>
     </modules>
     <packaging>pom</packaging>

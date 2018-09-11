@@ -30,4 +30,9 @@ public interface GeneratorProperties {
      * @return path to file with list of target tables
      */
     String getGoalListPath();
+
+    /**
+     * @return path to file with list of extended generators
+     */
+    String getExtendedGeneratorPath();
 }

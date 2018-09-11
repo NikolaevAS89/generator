@@ -41,31 +41,13 @@ public class SQLAgentProviderImpl implements SQLAgentProvider {
 
     @PostConstruct
     public void init() {
-        BeanDefinitionRegistry registry = postProcessorHandler.getBeanDefinitionRegistry();
-
-        RootBeanDefinition beanDefinitionAgent = new RootBeanDefinition();
         Class<? extends DataBaseAgent> clazz1 = loadSQLAgentClass();
-        LOG.info("SQL Agent class : " + clazz1.toString());
-        beanDefinitionAgent.setBeanClass(clazz1);
-        beanDefinitionAgent.setTargetType(DataBaseAgent.class);
-        beanDefinitionAgent.setRole(BeanDefinition.ROLE_APPLICATION);
-        beanDefinitionAgent.setScope(BeanDefinition.SCOPE_SINGLETON);
-        registry.registerBeanDefinition(SQLAgentProvider.SQL_HANDLER_BEAN, beanDefinitionAgent);
+        dataBaseAgent = (DataBaseAgent) registerBean(clazz1, DataBaseAgent.class, SQL_HANDLER_BEAN);
 
-        RootBeanDefinition beanDefinitionGenerator = new RootBeanDefinition();
         Class<? extends DataGeneratorService> clazz2 = loadDataGeneratorClass();
-        LOG.info("Data generator class : " + clazz2.toString());
-        beanDefinitionGenerator.setTargetType(DataGeneratorService.class);
-        beanDefinitionGenerator.setBeanClass(clazz2);
-        beanDefinitionGenerator.setScope(BeanDefinition.SCOPE_SINGLETON);
-        beanDefinitionGenerator.setRole(BeanDefinition.ROLE_APPLICATION);
-        registry.registerBeanDefinition(SQLAgentProvider.GENERATOR_PROVIDER_BEAN, beanDefinitionGenerator);
-
-        ApplicationContext ctx = applicationContextProvider.getApplicationContext();
-
-        dataBaseAgent = ctx.getBean(SQL_HANDLER_BEAN, DataBaseAgent.class);
-        dataGeneratorService = ctx.getBean(GENERATOR_PROVIDER_BEAN, DataGeneratorService.class);
+        dataGeneratorService = (DataGeneratorService) registerBean(clazz2, DataGeneratorService.class, GENERATOR_PROVIDER_BEAN);
     }
+
 
     @Override
     public DataBaseAgent getDBAgent() {
@@ -75,6 +57,34 @@ public class SQLAgentProviderImpl implements SQLAgentProvider {
     @Override
     public DataGeneratorService getDataGeneratorProvider() {
         return dataGeneratorService;
+    }
+
+    @Override
+    public Object registerNewBean(Class clazz) {
+        Object result = registerBean(clazz, clazz, clazz.getName());
+        postProcessorHandler.getBeanDefinitionRegistry().removeBeanDefinition(clazz.getName());
+        return result;
+    }
+
+    /**
+     * @param clazz
+     * @param interfazz
+     * @param name
+     * @return
+     */
+    private Object registerBean(Class clazz, Class interfazz, String name) {
+        BeanDefinitionRegistry registry = postProcessorHandler.getBeanDefinitionRegistry();
+        RootBeanDefinition definition = new RootBeanDefinition();
+        LOG.info("Load class " + clazz.toString());
+        definition.setTargetType(interfazz);
+        definition.setBeanClass(clazz);
+        definition.setScope(BeanDefinition.SCOPE_SINGLETON);
+        definition.setRole(BeanDefinition.ROLE_APPLICATION);
+        registry.registerBeanDefinition(name, definition);
+
+        ApplicationContext ctx = applicationContextProvider.getApplicationContext();
+
+        return ctx.getBean(name, clazz);
     }
 
     /**
