@@ -29,9 +29,6 @@ public class Goal implements Serializable {
     @JsonProperty
     private Map<String, String> skipFields;
 
-    @JsonProperty
-    private Map<String, String> dataFactories;
-
     private Goal(String id, String schema, String tableName) {
         this.schema = schema;
         this.tableName = tableName;
@@ -54,20 +51,12 @@ public class Goal implements Serializable {
         return skipFields != null && skipFields.get(columnId) != null && skipFields.get(columnId).contains(opType);
     }
 
-    public String getDataFactoryClassName(String columnName) {
-        return (dataFactories == null) ? (null) : (dataFactories.get(columnName));
-    }
-
     private void setSkipFields(Map<String, String> skipFields) {
         this.skipFields = skipFields;
     }
 
     private void setPKList(Set<String> pkList) {
         this.pkList = pkList;
-    }
-
-    private void setDataFactories(Map<String, String> dataFactories) {
-        this.dataFactories = dataFactories;
     }
 
     public String toString() {
@@ -83,19 +72,10 @@ public class Goal implements Serializable {
         private final String tableName;
         private Set<String> pkSet;
         private Map<String, String> skipMap;
-        private Map<String, String> dataFactories;
 
         public Builder(String schemaName, String tableName) {
             this.schema = schemaName;
             this.tableName = tableName;
-        }
-
-        public Builder addDataFactories(String columnLabel, String factoryClassName) {
-            if (this.dataFactories == null) {
-                this.dataFactories = new HashMap<>();
-            }
-            this.dataFactories.put(GoalUtil.getGoalId(schema, tableName, columnLabel), factoryClassName);
-            return this;
         }
 
         public Builder addSkip(String[] skipList) {
@@ -128,7 +108,6 @@ public class Goal implements Serializable {
             Goal res = new Goal(id, schema, tableName);
             res.setPKList(this.pkSet);
             res.setSkipFields(this.skipMap);
-            res.setDataFactories(this.dataFactories);
             return res;
         }
     }

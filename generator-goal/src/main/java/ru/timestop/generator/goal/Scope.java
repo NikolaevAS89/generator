@@ -45,18 +45,6 @@ public class Scope implements Consumer<String> {
             if (parts.length > 2) {
                 builder.addSkip(parts[2].split(","));
             }
-            if (parts.length > 3) {
-                for (String filterDesc : parts[3].split(",")) {
-                    String[] buf = filterDesc.split(":");
-                    if (buf.length == 2) {
-                        String columnLabel = buf[0];
-                        String factoryClassName = buf[1];
-                        builder.addDataFactories(columnLabel, factoryClassName);
-                    } else {
-                        LOG.warn("In line \"" + line + "\" not valid data generators. Set default ru.timestop.generator.randomizer.");
-                    }
-                }
-            }
             LOG.info(Arrays.toString(parts) + " loaded...");
             Goal goal = builder.build();
             goals.put(goal.getId(), goal);
