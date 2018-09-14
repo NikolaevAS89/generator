@@ -9,7 +9,7 @@ import java.io.Serializable;
  * @version 1.0.0
  * @since 12.07.2017
  */
-public class DataType implements Serializable {
+public class DataType implements Serializable, Comparable {
     @JsonProperty
     private String className;
     @JsonProperty
@@ -99,41 +99,21 @@ public class DataType implements Serializable {
         return this;
     }
 
-    //TODO
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        DataType dataType = (DataType) o;
-
-        if (className != null ? !className.equals(dataType.className) : dataType.className != null) return false;
-        if (size != null ? !size.equals(dataType.size) : dataType.size != null) return false;
-        if (type != null ? !type.equals(dataType.type) : dataType.type != null) return false;
-        if (typeName != null ? !typeName.equals(dataType.typeName) : dataType.typeName != null) return false;
-        if (isAutoincremental != dataType.isAutoincremental) return false;
-        if (isNullable != dataType.isNullable) return false;
-        if (precision != null ? !precision.equals(dataType.precision) : dataType.precision != null) return false;
-        return scale != null ? scale.equals(dataType.scale) : dataType.scale == null;
-
-    }
-
-    //TODO
-    @Override
-    public int hashCode() {
-        int result = className != null ? className.hashCode() : 0;
-        result = 31 * result + (type != null ? type.hashCode() : 0);
-        result = 31 * result + (typeName != null ? typeName.hashCode() : 0);
-        result = 31 * result + (size != null ? size.hashCode() : 0);
-        result = 31 * result + (precision != null ? precision.hashCode() : 0);
-        result = 31 * result + (scale != null ? scale.hashCode() : 0);
-        result = 31 * result + (isNullable ? 1 : 0);
-        result = 31 * result + (isAutoincremental ? 1 : 0);
-        return result;
-    }
-
     public String toString() {
         //TODO
         return super.toString();
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        if (this == o) return 0;
+        if (o == null || getClass() != o.getClass()) return 1;
+
+        DataType dataType = (DataType) o;
+
+        int val1 = (type << 24) | (size << 16) | (precision << 8) | (scale);
+        int val2 = (dataType.type << 24) | (dataType.size << 16) | (dataType.precision << 8) | (dataType.scale);
+
+        return val1 - val2;
     }
 }

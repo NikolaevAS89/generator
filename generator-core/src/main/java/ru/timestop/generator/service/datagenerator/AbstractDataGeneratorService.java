@@ -12,8 +12,8 @@ import ru.timestop.generator.service.SQLAgentProvider;
 import ru.timestop.generator.service.extended.ExtendedDataGeneratorService;
 import ru.timestop.generator.service.table.DBObjectService;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Implementation of service for working with data generators
@@ -38,7 +38,7 @@ abstract class AbstractDataGeneratorService implements DataGeneratorService {
     @Autowired
     DataGeneratorProperties dataGeneratorConfig;
 
-    private final Map<DataType, DataGenerator> defaultGenerators = new HashMap<>();
+    private final Map<DataType, DataGenerator> defaultGenerators = new TreeMap<>();
 
     @Override
     public DataGenerator get(String columnId) {
@@ -62,7 +62,7 @@ abstract class AbstractDataGeneratorService implements DataGeneratorService {
     /**
      * @return
      */
-    protected SQLAgentProvider getSqlAgentProvider(){
+    protected SQLAgentProvider getSqlAgentProvider() {
         return sqlAgentProvider;
     }
 
